@@ -3,4 +3,11 @@
     <string name="login">Entrar</string>
     <string name="signup">Cadastrar-se</string>
     <string name="main_slogan">Sua promoção é verdadeira?</string>
+    <string name="price">Preço</string>
+    <string name="period_promotion">Período da Promoção</string>
+    <string name="start_promotion">Início</string>
+    <string name="finish_promotion">Fim</string>
+    <string name="new_promotion">Adicionar Promoção</string>
+    <string name="save">Salvar</string>
+
 </resources>

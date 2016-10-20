@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_promotions"
+    android:id="@+id/activity_add_update_promotion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.true_promotion.PromotionsActivity">
+    tools:context="br.com.true_promotion.AddUpdatePromotionActivity">
 
-    <RelativeLayout
-        android:id="@+id/rl_fragment_container"
+    <include layout="@layout/box_product"
+        android:id="@+id/include_box_product"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></RelativeLayout>
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_label_price"
+        android:layout_below="@+id/include_box_product"
+        android:text="@string/price"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_label_price"
+        android:id="@+id/et_price"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,9 +39,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:onClick="newPromotion"
-            android:text="@string/new_promotion"
+            android:onClick="savePromotion"
+            android:text="@string/save"
             android:textColor="@color/textButton" />
     </LinearLayout>
+
+
 
 </RelativeLayout>

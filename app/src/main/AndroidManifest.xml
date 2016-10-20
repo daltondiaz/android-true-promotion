@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PromotionsActivity" />
-        <activity android:name=".ProductActivity"></activity>
+        <activity android:name=".ProductActivity" />
+        <activity android:name=".AddUpdatePromotionActivity"></activity>
     </application>
 
 </manifest>
