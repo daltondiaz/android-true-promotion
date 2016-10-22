@@ -17,8 +17,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:gravity="bottom"
-        android:padding="1dp">
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/btn_add_promotion"

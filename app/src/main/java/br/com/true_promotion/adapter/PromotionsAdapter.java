@@ -6,18 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.List;
 
 import br.com.true_promotion.R;
-import br.com.true_promotion.domain.Product;
 import br.com.true_promotion.domain.Promotion;
 import br.com.true_promotion.interfaces.RecyclerViewOnClickListenerHack;
 import io.realm.Realm;
-import io.realm.RealmBaseAdapter;
-import io.realm.RealmResults;
 
 /**
  *
@@ -27,7 +23,6 @@ import io.realm.RealmResults;
 
 public class PromotionsAdapter extends RecyclerView.Adapter<PromotionsAdapter.MyViewHolder> {
 
-    private Realm realm;
     private RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
     private LayoutInflater layoutInflater;
     private List<Promotion> promotions;
@@ -41,13 +36,14 @@ public class PromotionsAdapter extends RecyclerView.Adapter<PromotionsAdapter.My
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_promotion, parent,false);
+        View view = layoutInflater.inflate(R.layout.item_promotion_card, parent,false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        holder.ivPromotion.setImageResource(R.drawable.example_product);
         holder.tvProduct.setText(promotions.get(position).getProduct().getName());
         holder.tvPrice.setText(String.valueOf(promotions.get(position).getPrice()));
 
@@ -75,14 +71,14 @@ public class PromotionsAdapter extends RecyclerView.Adapter<PromotionsAdapter.My
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public ImageView ivProduct;
+        public ImageView ivPromotion;
         public TextView tvProduct;
         public TextView tvPrice;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            //TODO image Product ivProduct = (ImageView) itemView.findViewById(R.id.iv_product);
+            ivPromotion = (ImageView) itemView.findViewById(R.id.iv_promotion);
             tvProduct = (TextView) itemView.findViewById(R.id.tv_product);
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
 
