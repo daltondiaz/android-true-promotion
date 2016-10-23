@@ -17,7 +17,7 @@ public class Product extends RealmObject{
     private String name;
     private String description;
     private float measure;
-    private String type_product;
+    private String typeProduct;
 
     public long getId() {
         return id;
@@ -51,11 +51,11 @@ public class Product extends RealmObject{
         this.measure = measure;
     }
 
-    public String getType_product() {
-        return type_product;
+    public String getTypeProduct() {
+        return typeProduct;
     }
 
-    public void setType_product(String type_product) {
-        this.type_product = type_product;
+    public void setTypeProduct(String type_product) {
+        this.typeProduct = type_product;
     }
 }

@@ -44,7 +44,12 @@ public class PromotionsAdapter extends RecyclerView.Adapter<PromotionsAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.ivPromotion.setImageResource(R.drawable.example_product);
-        holder.tvProduct.setText(promotions.get(position).getProduct().getName());
+        if(promotions.get(position) != null && promotions.get(position).getProduct() != null){
+            holder.tvProduct.setText(promotions.get(position).getProduct().getName());
+        }else{
+            holder.tvProduct.setText("SEM PRODUTO");
+        }
+
         holder.tvPrice.setText(String.valueOf(promotions.get(position).getPrice()));
 
     }

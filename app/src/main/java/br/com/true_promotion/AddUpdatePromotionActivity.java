@@ -2,10 +2,16 @@ package br.com.true_promotion;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Date;
 
 import br.com.true_promotion.adapter.ProductSpinnerAdapter;
 import br.com.true_promotion.domain.Product;
@@ -17,18 +23,12 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
 
     private Realm realm;
     private RealmResults<Product> products;
-    private Promotion promotion;
-    private TextView tvName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_update_promotion);
-
-        //promotion = new Promotion();
-       // tvName = (TextView) findViewById(R.id.tv_item_product);
-
 
         realm = realm.getDefaultInstance();
         products = realm.where(Product.class).findAll();
@@ -40,17 +40,20 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
+        realm.removeAllChangeListeners();
+        realm.close();
         super.onDestroy();
     }
 
     public void savePromotion(View view){
-            /*Promotion p = new Promotion();
+
+        RealmResults<Promotion> promotions;
+        Promotion promotion = new Promotion();
         String label = new String();
         realm = Realm.getDefaultInstance();
         promotions = realm.where( Promotion.class ).findAll();
 
-        Product product = realm.where(Product.class).findFirst();
+       /* Product product = realm.where(Product.class).findFirst();
         if(product == null || product.getId() == 0){
             product = new Product();
             product.setId(1l);
@@ -66,29 +69,75 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
             catch(Exception e){
                 e.printStackTrace();
             }
-        }
+        }*/
 
-        if( p.getId() == 0 ){
+        if( promotion.getId() == 0 ){
             promotions.sort( "id", RealmResults.SORT_ORDER_DESCENDING );
             long id = promotions.size() == 0 ? 1 : promotions.get(0).getId() + 1;
-            p.setId( id );
+            promotion.setId( id );
             label = "adicionada";
         }
 
         try{
+
+            EditText etPrice = (EditText) findViewById(R.id.et_price);
+            float price = 0;
+            if(etPrice != null &&  !etPrice.toString().equals("")){
+                Log.d("NEW PROMOTION ",etPrice.getText().toString());
+                price =  Float.parseFloat(etPrice.getText().toString());
+            }
+
             realm.beginTransaction();
-            p.setPrice(2 * p.getId());
-            p.setProduct(product);
-            p.setDateCreate(new Date());
-            realm.copyToRealmOrUpdate(p);
+            promotion.setPrice(price);
+            promotion.setDateCreate(new Date());
+            realm.copyToRealmOrUpdate(promotion);
             realm.commitTransaction();
 
-            Toast.makeText(PromotionsActivity.this, "Promotion "+label, Toast.LENGTH_SHORT).show();
+            promotion = realm.where(Promotion.class).equalTo("id",promotion.getId()).findFirst();
+
+            realm.beginTransaction();
+            promotion.setProduct(getProduct(view,products));
+            realm.copyToRealmOrUpdate(promotion);
+            realm.commitTransaction();
+
+
+
+            Toast.makeText(AddUpdatePromotionActivity.this, "Promoção cadastrada! "+label, Toast.LENGTH_SHORT).show();
             finish();
         }
         catch(Exception e){
             e.printStackTrace();
-            Toast.makeText(PromotionsActivity.this, "Falhou!", Toast.LENGTH_SHORT).show();
-        }*/
+            Toast.makeText(AddUpdatePromotionActivity.this, "Falhou ao cadastrar promoção!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Get a Product from item of Spinner who was selected.
+     * @param view
+     * @param products List of Products which created a Spinner itens
+     * @return Product selected
+     */
+    public Product getProduct(View view, RealmResults<Product> products){
+        RelativeLayout rlParent = (RelativeLayout) view.getParent();
+
+        for(int i = 0; i<rlParent.getChildCount(); i++){
+
+            if(rlParent.getChildAt(i) instanceof LinearLayout){
+                LinearLayout llChield = (LinearLayout) rlParent.getChildAt(i);
+                if(llChield.getChildAt(0) instanceof Spinner){
+                    Spinner spProduct = (Spinner) llChield.getChildAt(0).findViewById(R.id.sp_products);
+                    Product product = new Product();
+                    product.setId(products.get(spProduct.getSelectedItemPosition()).getId());
+                    product.setName(products.get(spProduct.getSelectedItemPosition()).getName());
+                    product.setTypeProduct(products.get(spProduct.getSelectedItemPosition()).getTypeProduct());
+                    product.setMeasure(products.get(spProduct.getSelectedItemPosition()).getMeasure());
+                    product.setDescription(products.get(spProduct.getSelectedItemPosition()).getDescription());
+                    return product;
+                }
+
+            }
+
+        }
+        return null;
     }
 }
