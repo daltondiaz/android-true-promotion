@@ -4,15 +4,20 @@
     android:id="@+id/activity_add_update_promotion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="5dp"
     tools:context="br.com.true_promotion.AddUpdatePromotionActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Escolha um Produto"/>
 
     <include layout="@layout/box_product"
         android:id="@+id/include_box_product"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="5dp"/>
-
-
 
     <EditText
         android:layout_width="match_parent"
@@ -29,6 +34,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:gravity="bottom">
+
+        <Button
+            android:id="@+id/btn_create_product"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:onClick="createProductTemporary"
+            android:text="Criar Produto"
+            android:textColor="@color/textButton" />
 
         <Button
             android:id="@+id/btn_add_promotion"

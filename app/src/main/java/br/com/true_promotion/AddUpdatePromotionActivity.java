@@ -45,6 +45,34 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void createProductTemporary(View view){
+        try{
+            RealmResults<Product> productsAux = realm.where(Product.class).findAllSorted("id",false);
+            long id = 1;
+
+            if(productsAux != null && productsAux.size()> 0){
+                id = productsAux.get(0).getId() + 1;
+            }
+            Product  product = new Product();
+            product.setId(id);
+            product.setName("Arroz");
+            product.setDescription("Arroz Camil 1 kg");
+            product.setMeasure(1);
+            product.setTypeProduct("Alimento");
+
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(product);
+            realm.commitTransaction();
+
+            Toast.makeText(AddUpdatePromotionActivity.this, "Produto cadastrado! ", Toast.LENGTH_SHORT).show();
+            finish();
+
+        }catch(Exception e){
+            e.printStackTrace();
+            Toast.makeText(AddUpdatePromotionActivity.this, "Falhou ao cadastrar produto!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void savePromotion(View view){
 
         RealmResults<Promotion> promotions;
@@ -52,24 +80,6 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
         String label = new String();
         realm = Realm.getDefaultInstance();
         promotions = realm.where( Promotion.class ).findAll();
-
-       /* Product product = realm.where(Product.class).findFirst();
-        if(product == null || product.getId() == 0){
-            product = new Product();
-            product.setId(1l);
-            product.setName("Arroz");
-            product.setDescription("Arroz Camil 1 kg");
-            product.setMeasure(1);
-            product.setType_product("Alimento");
-            try{
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(product);
-                realm.commitTransaction();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-        }*/
 
         if( promotion.getId() == 0 ){
             promotions.sort( "id", RealmResults.SORT_ORDER_DESCENDING );
@@ -96,12 +106,9 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
             promotion = realm.where(Promotion.class).equalTo("id",promotion.getId()).findFirst();
 
             realm.beginTransaction();
-            promotion.setProduct(getProduct(view,products));
-            realm.copyToRealmOrUpdate(promotion);
+            Product product = realm.copyToRealmOrUpdate(getProduct(view,products));
+            promotion.setProduct(product);
             realm.commitTransaction();
-
-
-
             Toast.makeText(AddUpdatePromotionActivity.this, "Promoção cadastrada! "+label, Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -118,8 +125,7 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
      * @return Product selected
      */
     public Product getProduct(View view, RealmResults<Product> products){
-        RelativeLayout rlParent = (RelativeLayout) view.getParent();
-
+        RelativeLayout rlParent = (RelativeLayout) view.getParent().getParent();
         for(int i = 0; i<rlParent.getChildCount(); i++){
 
             if(rlParent.getChildAt(i) instanceof LinearLayout){
