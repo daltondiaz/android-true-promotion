@@ -10,8 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="5dp"
-        android:gravity="center_vertical"></Spinner>
+        android:paddingTop="15dp"
+        android:gravity="left"></Spinner>
 
 
 </LinearLayout>
