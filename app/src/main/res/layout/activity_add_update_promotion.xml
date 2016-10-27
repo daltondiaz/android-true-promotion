@@ -7,43 +7,31 @@
     android:padding="16dp"
     tools:context="br.com.true_promotion.AddUpdatePromotionActivity">
 
+
+    <include
+        android:id="@+id/include_box_product"
+        layout="@layout/box_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
     <ImageView
+        android:layout_below="@id/include_box_product"
         android:id="@+id/iv_Camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="16dp"
         android:src="@drawable/ic_camera_enhance_black_24dp" />
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_Camera"
-        android:id="@+id/ll_product">
-
-        <TextView
-            android:id="@+id/tv_product_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_Camera"
-            android:padding="10dp"
-            android:text="Escolha um Produto" />
-
-        <include
-            android:id="@+id/include_box_product"
-            layout="@layout/box_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
 
     <EditText
         android:id="@+id/et_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_product"
+        android:layout_below="@+id/iv_Camera"
         android:hint="@string/price"
-        android:padding="5dp" />
+        android:paddingTop="16dp" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

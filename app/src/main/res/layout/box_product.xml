@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:layout_below="@id/iv_Camera"
+    >
+
+    <TextView
+        android:id="@+id/tv_product_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Escolha um Produto" />
 
     <Spinner
+        android:layout_below="@+id/tv_product_label"
         android:id="@+id/sp_products"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingTop="30dp"
@@ -15,4 +24,4 @@
         android:labelFor="@+id/tv_product_label"></Spinner>
 
 
-</LinearLayout>
+</RelativeLayout>

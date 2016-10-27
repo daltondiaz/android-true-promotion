@@ -28,6 +28,8 @@ import br.com.true_promotion.utils.ApplicationUtilities;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static android.widget.Toast.makeText;
+
 public class AddUpdatePromotionActivity extends AppCompatActivity {
 
     private Realm realm;
@@ -52,7 +54,7 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File image = ApplicationUtilities.getOutputMediaFile(
-                        AddUpdatePromotionActivity.this,false);
+                         AddUpdatePromotionActivity.this,false);
                 Uri fileUri = Uri.fromFile(image);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
 
@@ -87,12 +89,12 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
             realm.copyToRealmOrUpdate(product);
             realm.commitTransaction();
 
-            Toast.makeText(AddUpdatePromotionActivity.this, "Produto cadastrado! ", Toast.LENGTH_SHORT).show();
+            makeText(AddUpdatePromotionActivity.this, "Produto cadastrado! ", Toast.LENGTH_SHORT).show();
             finish();
 
         }catch(Exception e){
             e.printStackTrace();
-            Toast.makeText(AddUpdatePromotionActivity.this, "Falhou ao cadastrar produto!", Toast.LENGTH_SHORT).show();
+            makeText(AddUpdatePromotionActivity.this, "Falhou ao cadastrar produto!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -132,12 +134,12 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
             Product product = realm.copyToRealmOrUpdate(getProduct(view,products));
             promotion.setProduct(product);
             realm.commitTransaction();
-            Toast.makeText(AddUpdatePromotionActivity.this, "Promoção cadastrada! "+label, Toast.LENGTH_SHORT).show();
+            makeText(AddUpdatePromotionActivity.this, "Promoção cadastrada! "+label, Toast.LENGTH_SHORT).show();
             finish();
         }
         catch(Exception e){
             e.printStackTrace();
-            Toast.makeText(AddUpdatePromotionActivity.this, "Falhou ao cadastrar promoção!", Toast.LENGTH_SHORT).show();
+            makeText(AddUpdatePromotionActivity.this, "Falhou ao cadastrar promoção!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -151,17 +153,20 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
         RelativeLayout rlParent = (RelativeLayout) view.getParent().getParent();
         for(int i = 0; i<rlParent.getChildCount(); i++){
 
-            if(rlParent.getChildAt(i) instanceof LinearLayout){
-                LinearLayout llChield = (LinearLayout) rlParent.getChildAt(i);
-                if(llChield.getChildAt(0) instanceof Spinner){
-                    Spinner spProduct = (Spinner) llChield.getChildAt(0).findViewById(R.id.sp_products);
-                    Product product = new Product();
-                    product.setId(products.get(spProduct.getSelectedItemPosition()).getId());
-                    product.setName(products.get(spProduct.getSelectedItemPosition()).getName());
-                    product.setTypeProduct(products.get(spProduct.getSelectedItemPosition()).getTypeProduct());
-                    product.setMeasure(products.get(spProduct.getSelectedItemPosition()).getMeasure());
-                    product.setDescription(products.get(spProduct.getSelectedItemPosition()).getDescription());
-                    return product;
+            if(rlParent.getChildAt(i) instanceof RelativeLayout){
+                RelativeLayout rlChield = (RelativeLayout) rlParent.getChildAt(i);
+
+                for(int j = 0; j<rlChield.getChildCount(); j++){
+                    if(rlChield.getChildAt(j) instanceof Spinner){
+                        Spinner spProduct = (Spinner) rlChield.getChildAt(j).findViewById(R.id.sp_products);
+                        Product product = new Product();
+                        product.setId(products.get(spProduct.getSelectedItemPosition()).getId());
+                        product.setName(products.get(spProduct.getSelectedItemPosition()).getName());
+                        product.setTypeProduct(products.get(spProduct.getSelectedItemPosition()).getTypeProduct());
+                        product.setMeasure(products.get(spProduct.getSelectedItemPosition()).getMeasure());
+                        product.setDescription(products.get(spProduct.getSelectedItemPosition()).getDescription());
+                        return product;
+                    }
                 }
 
             }
