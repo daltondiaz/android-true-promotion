@@ -19,6 +19,7 @@ public class Product extends RealmObject{
     private float measure;
     private String typeProduct;
 
+
     public long getId() {
         return id;
     }

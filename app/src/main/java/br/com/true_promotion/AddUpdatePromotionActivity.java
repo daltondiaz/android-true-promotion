@@ -1,21 +1,30 @@
 package br.com.true_promotion;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yalantis.ucrop.UCrop;
+
+import java.io.File;
 import java.util.Date;
 
 import br.com.true_promotion.adapter.ProductSpinnerAdapter;
 import br.com.true_promotion.domain.Product;
 import br.com.true_promotion.domain.Promotion;
+import br.com.true_promotion.utils.ApplicationUtilities;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -35,6 +44,20 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
 
         Spinner spinner = (Spinner) findViewById(R.id.sp_products);
         spinner.setAdapter(new ProductSpinnerAdapter(this,products));
+
+        ImageView ivCamera = (ImageView) findViewById(R.id.iv_Camera);
+        ivCamera.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File image = ApplicationUtilities.getOutputMediaFile(
+                        AddUpdatePromotionActivity.this,false);
+                Uri fileUri = Uri.fromFile(image);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
+
+            }
+        });
 
     }
 
@@ -145,5 +168,28 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
 
         }
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == 1888){
+            File mImage = ApplicationUtilities.getOutputMediaFile(AddUpdatePromotionActivity.this,false);
+            File mImageCropped = ApplicationUtilities.getOutputMediaFile(AddUpdatePromotionActivity.this,true);
+            callCrop(Uri.fromFile(mImage),Uri.fromFile(mImageCropped));
+        }else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            final Uri resultUri = UCrop.getOutput(data);
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
+        }
+    }
+
+
+    public void callCrop(Uri sourceUri, Uri destinationUri){
+        UCrop.Options options = new UCrop.Options();
+        options.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+        UCrop.of(sourceUri,destinationUri)
+                .withAspectRatio(4,3)
+                .withOptions(options)
+                .start(AddUpdatePromotionActivity.this);
     }
 }

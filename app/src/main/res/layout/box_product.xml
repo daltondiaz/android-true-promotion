@@ -10,8 +10,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingTop="15dp"
-        android:gravity="left"></Spinner>
+        android:paddingTop="30dp"
+        android:gravity="left"
+        android:labelFor="@+id/tv_product_label"></Spinner>
 
 
 </LinearLayout>
