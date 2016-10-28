@@ -71,7 +71,8 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
     }
 
     public void createProductTemporary(View view){
-        try{
+        startActivity(new Intent(this,ProductActivity.class));
+        /*try{
             RealmResults<Product> productsAux = realm.where(Product.class).findAllSorted("id",false);
             long id = 1;
 
@@ -95,7 +96,7 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
         }catch(Exception e){
             e.printStackTrace();
             makeText(AddUpdatePromotionActivity.this, "Falhou ao cadastrar produto!", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     public void savePromotion(View view){

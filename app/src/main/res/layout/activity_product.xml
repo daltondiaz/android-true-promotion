@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_product_measure"
         android:layout_below="@+id/et_product_description"
-        android:text="@string/product_type"/>
+        android:text="@string/product_measure"/>
 
     <EditText
         android:layout_width="match_parent"
