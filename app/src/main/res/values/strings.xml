@@ -10,4 +10,11 @@
     <string name="new_promotion">Adicionar Promoção</string>
     <string name="save">Salvar</string>
 
+
+    <!-- Product -->
+    <string name="product_name">Nome</string>
+    <string name="product_description">Descrição</string>
+    <string name="product_measure">Medida</string>
+    <string name="product_type">Tipo do Produto</string>
+
 </resources>
