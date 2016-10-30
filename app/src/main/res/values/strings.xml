@@ -17,4 +17,12 @@
     <string name="product_measure">Medida</string>
     <string name="product_type">Tipo do Produto</string>
 
+
+    <!-- Tab Title-->
+    <string-array name="tab_titles">
+        <item>Promoções</item>
+        <item>Nova Promoção</item>
+        <item>Novo Produto</item>
+    </string-array>
+
 </resources>
