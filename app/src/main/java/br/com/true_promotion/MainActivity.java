@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import br.com.true_promotion.adapter.DynamicTabViewPageAdapter;
+import br.com.true_promotion.fragments.PromotionsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private DynamicTabViewPageAdapter viewPagerAdapter;
     protected Toolbar toolbar;
     protected TabLayout tabLayout;
+    protected ViewPager mViewPager;
     private String[] titlesArray;
 
     private int[]tabIcons = {R.drawable.ic_view_list,R.drawable.ic_new_promotion_24dp};
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         titlesArray = getResources().getStringArray(R.array.tab_titles);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        setupTabs(mViewPager);
 
     }
 
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             toolbar.setTitle(titlesArray[0]);
 
             //Set Fragments
+            viewPagerAdapter.addFragment(new PromotionsFragment(),titlesArray[0]);
 
             viewPager.setAdapter(viewPagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
@@ -48,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     tab.getCustomView().setAlpha(1.0f);
-                    if(viewPager != null){
-                        viewPager.setCurrentItem(tab.getPosition());
+                    if(tab != null){
+                        mViewPager.setCurrentItem(tab.getPosition());
                         toolbar.setTitle(titlesArray[tab.getPosition()]);
                     }
                 }
