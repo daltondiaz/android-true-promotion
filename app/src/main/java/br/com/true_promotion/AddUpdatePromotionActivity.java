@@ -30,6 +30,7 @@ import io.realm.RealmResults;
 
 import static android.widget.Toast.makeText;
 
+
 public class AddUpdatePromotionActivity extends AppCompatActivity {
 
     private Realm realm;
@@ -99,7 +100,7 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
         }*/
     }
 
-    public void savePromotion(View view){
+    /*public void savePromotion(View view){
 
         RealmResults<Promotion> promotions;
         Promotion promotion = new Promotion();
@@ -150,7 +151,7 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
      * @param products List of Products which created a Spinner itens
      * @return Product selected
      */
-    public Product getProduct(View view, RealmResults<Product> products){
+   /* public Product getProduct(View view, RealmResults<Product> products){
         RelativeLayout rlParent = (RelativeLayout) view.getParent().getParent();
         for(int i = 0; i<rlParent.getChildCount(); i++){
 
@@ -197,5 +198,5 @@ public class AddUpdatePromotionActivity extends AppCompatActivity {
                 .withAspectRatio(4,3)
                 .withOptions(options)
                 .start(AddUpdatePromotionActivity.this);
-    }
+    }*/
 }

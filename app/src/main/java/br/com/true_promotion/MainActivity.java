@@ -6,9 +6,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import br.com.true_promotion.adapter.DynamicTabViewPageAdapter;
+import br.com.true_promotion.fragments.NewProductFragment;
+import br.com.true_promotion.fragments.NewPromotionFragment;
 import br.com.true_promotion.fragments.PromotionsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,34 +46,44 @@ public class MainActivity extends AppCompatActivity {
     public void setupTabs(final ViewPager viewPager){
         viewPagerAdapter = new DynamicTabViewPageAdapter(getSupportFragmentManager());
         if(viewPager != null){
-            toolbar.setTitle(titlesArray[0]);
 
-            //Set Fragments
-            viewPagerAdapter.addFragment(new PromotionsFragment(),titlesArray[0]);
+            try{
+                toolbar.setTitle(titlesArray[0]);
 
-            viewPager.setAdapter(viewPagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
-            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    tab.getCustomView().setAlpha(1.0f);
-                    if(tab != null){
-                        mViewPager.setCurrentItem(tab.getPosition());
-                        toolbar.setTitle(titlesArray[tab.getPosition()]);
+                //Set Fragments
+                viewPagerAdapter.addFragment(new PromotionsFragment(),titlesArray[0]);
+                viewPagerAdapter.addFragment(new NewPromotionFragment(),titlesArray[1]);
+                viewPagerAdapter.addFragment(new NewProductFragment(),titlesArray[2]);
+
+                viewPager.setAdapter(viewPagerAdapter);
+                tabLayout.setupWithViewPager(viewPager);
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+        //                tab.getCustomView().setAlpha(1.0f);
+                        if(tab != null){
+                            mViewPager.setCurrentItem(tab.getPosition());
+                            toolbar.setTitle(titlesArray[tab.getPosition()]);
+                        }
                     }
-                }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                    tab.getCustomView().setAlpha(0.5f);
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                       // tab.getCustomView().setAlpha(0.5f);
 
-                }
+                    }
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                    tab.getCustomView().setAlpha(1.0f);
-                }
-            });
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                       // tab.getCustomView().setAlpha(1.0f);
+                    }
+                });
+
+
+            }catch (Exception e){
+                Log.e("DEBUG = ", e.getMessage());
+            }
+
 
         }
     }
