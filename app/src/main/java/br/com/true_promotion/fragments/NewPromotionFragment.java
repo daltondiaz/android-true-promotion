@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -84,6 +86,7 @@ public class NewPromotionFragment extends Fragment {
 
     /**
      * Save a new Promotion
+     *
      * @param v
      */
     private void savePromotion(View v) {
@@ -102,26 +105,34 @@ public class NewPromotionFragment extends Fragment {
 
         try {
 
-            EditText etPrice = (EditText) v.findViewById(R.id.et_price);
+            EditText etPrice = (EditText) getActivity().findViewById(R.id.et_price);
             float price = 0;
             if (etPrice != null && !etPrice.toString().equals("")) {
                 Log.d("NEW PROMOTION ", etPrice.getText().toString());
                 price = Float.parseFloat(etPrice.getText().toString());
+
+                realm.beginTransaction();
+                promotion.setPrice(price);
+                promotion.setDateCreate(new Date());
+                realm.copyToRealmOrUpdate(promotion);
+                realm.commitTransaction();
+
+                promotion = realm.where(Promotion.class).equalTo("id", promotion.getId()).findFirst();
+
+                Product p = getProduct(v, products);
+                if (p == null) {
+                    makeText(getActivity(), "Produto não encontrado! ", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    realm.beginTransaction();
+                    Product product = realm.copyToRealmOrUpdate(p);
+                    promotion.setProduct(product);
+                    realm.commitTransaction();
+                    makeText(getActivity(), "Promoção cadastrada! " + label, Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                makeText(getActivity(), "Digite um preço!", Toast.LENGTH_SHORT).show();
             }
-
-            realm.beginTransaction();
-            promotion.setPrice(price);
-            promotion.setDateCreate(new Date());
-            realm.copyToRealmOrUpdate(promotion);
-            realm.commitTransaction();
-
-            promotion = realm.where(Promotion.class).equalTo("id", promotion.getId()).findFirst();
-
-            realm.beginTransaction();
-            Product product = realm.copyToRealmOrUpdate(getProduct(v, products));
-            promotion.setProduct(product);
-            realm.commitTransaction();
-            makeText(getActivity(), "Promoção cadastrada! " + label, Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,27 +155,49 @@ public class NewPromotionFragment extends Fragment {
      * @return Product selected
      */
     public Product getProduct(View view, RealmResults<Product> products) {
-        RelativeLayout rlParent = (RelativeLayout) view.getParent().getParent();
-        for (int i = 0; i < rlParent.getChildCount(); i++) {
+        try {
 
-            if (rlParent.getChildAt(i) instanceof RelativeLayout) {
-                RelativeLayout rlChield = (RelativeLayout) rlParent.getChildAt(i);
+            RelativeLayout rlParent = (RelativeLayout) view.getParent();
+            for (int i = 0; i < rlParent.getChildCount(); i++) {
 
-                for (int j = 0; j < rlChield.getChildCount(); j++) {
-                    if (rlChield.getChildAt(j) instanceof Spinner) {
-                        Spinner spProduct = (Spinner) rlChield.getChildAt(j).findViewById(R.id.sp_products);
-                        Product product = new Product();
-                        product.setId(products.get(spProduct.getSelectedItemPosition()).getId());
-                        product.setName(products.get(spProduct.getSelectedItemPosition()).getName());
-                        product.setTypeProduct(products.get(spProduct.getSelectedItemPosition()).getTypeProduct());
-                        product.setMeasure(products.get(spProduct.getSelectedItemPosition()).getMeasure());
-                        product.setDescription(products.get(spProduct.getSelectedItemPosition()).getDescription());
-                        return product;
+                if (rlParent.getChildAt(i) instanceof ScrollView) {
+                    ScrollView scrollView = (ScrollView) rlParent.getChildAt(i);
+
+                    for (int j = 0; j < scrollView.getChildCount(); j++) {
+
+                        if (scrollView.getChildAt(j) instanceof LinearLayout) {
+                            LinearLayout llChield = (LinearLayout) scrollView.getChildAt(j);
+
+                            for (int z = 0; z < llChield.getChildCount(); z++) {
+                                if (llChield.getChildAt(z) instanceof RelativeLayout) {
+                                    RelativeLayout rlChield = (RelativeLayout) llChield.getChildAt(z);
+
+                                    for (int y = 0; y < rlChield.getChildCount(); y++) {
+                                        if (rlChield.getChildAt(y) instanceof Spinner) {
+                                            Spinner spProduct = (Spinner) rlChield.getChildAt(y).findViewById(R.id.sp_products);
+                                            Product product = new Product();
+                                            product.setId(products.get(spProduct.getSelectedItemPosition()).getId());
+                                            product.setName(products.get(spProduct.getSelectedItemPosition()).getName());
+                                            product.setTypeProduct(products.get(spProduct.getSelectedItemPosition()).getTypeProduct());
+                                            product.setMeasure(products.get(spProduct.getSelectedItemPosition()).getMeasure());
+                                            product.setDescription(products.get(spProduct.getSelectedItemPosition()).getDescription());
+                                            return product;
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
                     }
+
+
                 }
 
-            }
 
+            }
+        } catch (Exception e) {
+            Log.d("New Promotion", e.getLocalizedMessage());
+            throw e;
         }
         return null;
     }

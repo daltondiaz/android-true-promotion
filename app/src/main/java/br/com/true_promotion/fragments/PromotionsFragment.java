@@ -87,13 +87,6 @@ public class PromotionsFragment extends Fragment implements RecyclerViewOnClickL
     }
 
     @Override
-    public void onDestroy() {
-        realm.removeAllChangeListeners();
-        realm.close();
-        super.onDestroy();
-    }
-
-    @Override
     public void onClickListener(View view, int position) {
         Toast.makeText(getActivity(), "onClickListener(): "+position, Toast.LENGTH_SHORT).show();
     }

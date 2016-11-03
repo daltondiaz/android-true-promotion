@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import java.util.Scanner;
+
 import br.com.true_promotion.adapter.DynamicTabViewPageAdapter;
 import br.com.true_promotion.fragments.NewProductFragment;
 import br.com.true_promotion.fragments.NewPromotionFragment;
@@ -87,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
 
     public void signUP(View view){
         startActivity(new Intent(this,PromotionsActivity.class));

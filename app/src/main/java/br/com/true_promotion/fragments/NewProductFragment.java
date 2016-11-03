@@ -94,10 +94,4 @@ public class NewProductFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        realm.removeAllChangeListeners();
-        realm.close();
-        super.onDestroy();
-    }
 }
