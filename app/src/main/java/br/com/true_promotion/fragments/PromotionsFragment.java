@@ -73,7 +73,7 @@ public class PromotionsFragment extends Fragment implements RecyclerViewOnClickL
         //TODO get 10 item of realm
         try{
             realm = Realm.getDefaultInstance();
-            promotions = realm.where(Promotion.class).findAll();
+            promotions = realm.where(Promotion.class).findAllSorted("id",false);
 
         }catch (Exception e){
             e.printStackTrace();

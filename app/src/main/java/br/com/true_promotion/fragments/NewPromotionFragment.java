@@ -1,6 +1,7 @@
 package br.com.true_promotion.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -45,7 +46,7 @@ public class NewPromotionFragment extends Fragment {
 
     private Realm realm;
     private RealmResults<Product> products;
-
+    private ImageView ivCamera;
 
     @Nullable
     @Override
@@ -59,17 +60,19 @@ public class NewPromotionFragment extends Fragment {
         Spinner spinner = (Spinner) view.findViewById(R.id.sp_products);
         spinner.setAdapter(new ProductSpinnerAdapter(getActivity(), products));
 
-        ImageView ivCamera = (ImageView) view.findViewById(R.id.iv_Camera);
-        ivCamera.setOnClickListener(new View.OnClickListener() {
+        this.ivCamera = (ImageView) view.findViewById(R.id.iv_Camera);
+        this.ivCamera.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                Log.d("CAMERA","onClick()");
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File image = ApplicationUtilities.getOutputMediaFile(
                         getActivity(), false);
                 Uri fileUri = Uri.fromFile(image);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-
+                // 1888 - ACTIVITY_RESULT_CAMERA
+                NewPromotionFragment.this.startActivityForResult(intent,1888);
             }
         });
 
@@ -105,6 +108,7 @@ public class NewPromotionFragment extends Fragment {
 
         try {
 
+            ImageView etCamera = (ImageView) getActivity().findViewById(R.id.iv_Camera);
             EditText etPrice = (EditText) getActivity().findViewById(R.id.et_price);
             float price = 0;
             if (etPrice != null && !etPrice.toString().equals("")) {
@@ -204,10 +208,12 @@ public class NewPromotionFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("CAMERA","onActivityResult()");
         if (resultCode == RESULT_OK && requestCode == 1888) {
             File mImage = ApplicationUtilities.getOutputMediaFile(getActivity(), false);
             File mImageCropped = ApplicationUtilities.getOutputMediaFile(getActivity(), true);
             callCrop(Uri.fromFile(mImage), Uri.fromFile(mImageCropped));
+
         } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             final Uri resultUri = UCrop.getOutput(data);
         } else if (resultCode == UCrop.RESULT_ERROR) {
@@ -222,6 +228,6 @@ public class NewPromotionFragment extends Fragment {
         UCrop.of(sourceUri, destinationUri)
                 .withAspectRatio(4, 3)
                 .withOptions(options)
-                .start(getActivity());
+                .start(getActivity(),NewPromotionFragment.this);
     }
 }
