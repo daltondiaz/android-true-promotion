@@ -1,4 +1,4 @@
-package br.com.true_promotion.adapter;
+package br.com.true_promotion.views.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,6 @@ import java.util.List;
 import br.com.true_promotion.R;
 import br.com.true_promotion.domain.Promotion;
 import br.com.true_promotion.interfaces.RecyclerViewOnClickListenerHack;
-import io.realm.Realm;
 
 /**
  *

@@ -1,29 +1,19 @@
-package br.com.true_promotion;
+package br.com.true_promotion.views.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
-import java.util.Date;
 
-import br.com.true_promotion.adapter.ProductSpinnerAdapter;
+import br.com.true_promotion.R;
+import br.com.true_promotion.views.adapters.ProductSpinnerAdapter;
 import br.com.true_promotion.domain.Product;
-import br.com.true_promotion.domain.Promotion;
 import br.com.true_promotion.utils.ApplicationUtilities;
 import io.realm.Realm;
 import io.realm.RealmResults;

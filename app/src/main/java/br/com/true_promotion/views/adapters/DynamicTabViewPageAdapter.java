@@ -1,4 +1,4 @@
-package br.com.true_promotion.adapter;
+package br.com.true_promotion.views.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

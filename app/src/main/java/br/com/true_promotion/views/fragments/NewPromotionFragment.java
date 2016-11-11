@@ -1,7 +1,6 @@
-package br.com.true_promotion.fragments;
+package br.com.true_promotion.views.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,10 +24,8 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.util.Date;
 
-import br.com.true_promotion.AddUpdatePromotionActivity;
-import br.com.true_promotion.ProductActivity;
 import br.com.true_promotion.R;
-import br.com.true_promotion.adapter.ProductSpinnerAdapter;
+import br.com.true_promotion.views.adapters.ProductSpinnerAdapter;
 import br.com.true_promotion.domain.Product;
 import br.com.true_promotion.domain.Promotion;
 import br.com.true_promotion.utils.ApplicationUtilities;

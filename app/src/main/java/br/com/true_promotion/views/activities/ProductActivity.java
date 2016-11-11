@@ -1,4 +1,4 @@
-package br.com.true_promotion;
+package br.com.true_promotion.views.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import br.com.true_promotion.R;
 import br.com.true_promotion.domain.Product;
 import io.realm.Realm;
 import io.realm.RealmResults;

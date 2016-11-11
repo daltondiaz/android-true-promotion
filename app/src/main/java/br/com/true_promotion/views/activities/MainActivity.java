@@ -1,4 +1,4 @@
-package br.com.true_promotion;
+package br.com.true_promotion.views.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -7,14 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 
-import java.util.Scanner;
+import com.squareup.picasso.Picasso;
 
-import br.com.true_promotion.adapter.DynamicTabViewPageAdapter;
-import br.com.true_promotion.fragments.NewProductFragment;
-import br.com.true_promotion.fragments.NewPromotionFragment;
-import br.com.true_promotion.fragments.PromotionsFragment;
+import br.com.true_promotion.R;
+import br.com.true_promotion.views.adapters.DynamicTabViewPageAdapter;
+import br.com.true_promotion.views.fragments.NewProductFragment;
+import br.com.true_promotion.views.fragments.NewPromotionFragment;
+import br.com.true_promotion.views.fragments.PromotionsFragment;
+import br.com.true_promotion.views.widgets.BadgeViewLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,8 +28,13 @@ public class MainActivity extends AppCompatActivity {
     protected TabLayout tabLayout;
     protected ViewPager mViewPager;
     private String[] titlesArray;
+    protected BadgeViewLayout notificationBadge;
 
-    private int[]tabIcons = {R.drawable.ic_view_list,R.drawable.ic_new_promotion_24dp};
+    public static final int[]tabIcons = {
+            R.drawable.ic_list_promotion_24dp,
+            R.drawable.ic_add_tag_24dp,
+            R.drawable.ic_add_product_24dp
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onTabSelected(TabLayout.Tab tab) {
         //                tab.getCustomView().setAlpha(1.0f);
                         if(tab != null){
+                            tab.getCustomView().setAlpha(1.0f);
                             mViewPager.setCurrentItem(tab.getPosition());
                             toolbar.setTitle(titlesArray[tab.getPosition()]);
                         }
@@ -71,16 +81,29 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
-                       // tab.getCustomView().setAlpha(0.5f);
+                        tab.getCustomView().setAlpha(0.5f);
 
                     }
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                       // tab.getCustomView().setAlpha(1.0f);
+                        tab.getCustomView().setAlpha(1.0f);
                     }
                 });
 
+                for (int i=0; i<tabIcons.length; i++){
+                    RelativeLayout mTabLayout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.tabbadge,null,false);
+                    BadgeViewLayout badgeViewLayout = new BadgeViewLayout(mTabLayout);
+                    badgeViewLayout.initUi(R.id.badgeImage);
+                    Picasso.with(this).load(tabIcons[i]).into(badgeViewLayout.getBadgeImage());
+
+                    tabLayout.getTabAt(i).setCustomView(mTabLayout);
+
+                    if(i != 0){
+                        tabLayout.getTabAt(i).getCustomView().setAlpha(0.5f);
+                    }
+
+                }
 
             }catch (Exception e){
                 Log.e("DEBUG = ", e.getMessage());

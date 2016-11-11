@@ -1,4 +1,4 @@
-package br.com.true_promotion.fragments;
+package br.com.true_promotion.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.true_promotion.R;
-import br.com.true_promotion.adapter.PromotionsAdapter;
+import br.com.true_promotion.views.adapters.PromotionsAdapter;
 import br.com.true_promotion.domain.Promotion;
 import br.com.true_promotion.interfaces.RecyclerViewOnClickListenerHack;
 import io.realm.Realm;
